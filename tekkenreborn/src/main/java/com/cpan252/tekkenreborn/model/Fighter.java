@@ -1,6 +1,10 @@
 package com.cpan252.tekkenreborn.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -13,6 +17,8 @@ import lombok.Data;
 @Data
 @Builder
 public class Fighter {
+    @Id
+    private long id;
     @NotBlank
     private String name;
     @Max(100)
@@ -23,6 +29,8 @@ public class Fighter {
     @DecimalMax(value = "10.0", inclusive = true)
     private BigDecimal resistance;
     private Anime animeFrom;
+
+    private final Date createdAt = new Date();
 
     public enum Anime {
         NARUTO("Naruto"), BLEACH("Bleach"), ONE_PIECE("One Piece"), TEKKEN("Tekken");

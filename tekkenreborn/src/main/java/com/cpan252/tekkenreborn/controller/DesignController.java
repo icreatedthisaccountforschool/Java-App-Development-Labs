@@ -1,29 +1,31 @@
 package com.cpan252.tekkenreborn.controller;
 
 import java.util.EnumSet;
-//import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.cpan252.tekkenreborn.model.Fighter;
-import com.cpan252.tekkenreborn.model.FighterPool;
 import com.cpan252.tekkenreborn.model.Fighter.Anime;
+import com.cpan252.tekkenreborn.repository.FighterRepository;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @Slf4j
 @RequestMapping("/design")
-@SessionAttributes("fighterPool")
 public class DesignController {
+
+    @Autowired
+    private FighterRepository fighterRepository;
+
     @GetMapping
     public String design() {
         return "design";
@@ -32,14 +34,8 @@ public class DesignController {
     @ModelAttribute
     public void animes(Model model) {
         var animes = EnumSet.allOf(Anime.class);
-                //.map(Anime::getTitle).collect(Collectors.toList());
         model.addAttribute("animes", animes);
         log.info("animes converted to string:  {}", animes);
-    }
-
-    @ModelAttribute(name = "fighterPool")
-    public FighterPool fighterPool() {
-        return new FighterPool();
     }
 
     @ModelAttribute
@@ -50,12 +46,13 @@ public class DesignController {
     }
 
     @PostMapping
-    public String processFighterAddition(@Valid Fighter fighter,
-            @ModelAttribute FighterPool pool, Errors errors) {
-        if (errors.hasErrors()){
+    public String processFighterAddition(@Valid Fighter fighter, BindingResult result) {
+        if (result.hasErrors()) {
             return "design";
         }
-        pool.add(fighter);
+        log.info("Processing fighter: {}", fighter);
+        fighterRepository.save(fighter);
         return "redirect:/design";
     }
+
 }
