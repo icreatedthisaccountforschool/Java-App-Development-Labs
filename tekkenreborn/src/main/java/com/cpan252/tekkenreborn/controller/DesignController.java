@@ -52,7 +52,7 @@ public class DesignController {
         }
         log.info("Processing fighter: {}", fighter);
         fighterRepository.save(fighter);
-        return "redirect:/design";
+        return "redirect:/fighterlist";
     }
 
 }
