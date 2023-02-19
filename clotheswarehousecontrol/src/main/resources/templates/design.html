@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" 
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js">     
+  </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+  </script>
+    <title>Design form</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1 class="well well-lg">Design Clothing Warehouse Item</h1>
+      <form method="post" th:object="${clothing}">
+        <div th:if="${#fields.hasErrors()}">
+          <span class = "badge">Please correct the problems below and resubmit.</span>
+        </div>
+        <div class="form-group">
+          <label for="clothingName inputlg" class="form-label">Clothing name: </label>
+          <input
+            type="text"
+            class="form-control input-lg"
+            id="clothingName inputlg"
+            th:field="*{name}"
+            aria-describedby="clothingHelp"
+          />
+          <div id="clothingHelp" class="form-text">
+            Provide decent clothing name
+          </div>
+          <span 
+            class="validationError badge"
+            th:if="${#fields.hasErrors('name')}"
+            th:erorrs="*{name}"
+            >
+            Name error
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="createdAt inputlg" class="form-label">Year Of Creation: </label>
+          <input
+            type="number"
+            th:field="*{createdAt}"
+            class="form-control input-lg"
+            id="createdAt inputlg"
+          />
+          <span 
+            class="validationError badge"
+            th:if="${#fields.hasErrors('createdAt')}"
+            th:errors="*{createdAt}"
+            >
+            Year Error
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="price inputlg" class="form-label">Price: </label>
+          <input 
+            type="number"
+            step="1000.00"
+            th:field="*{price}"
+            class="form-control input-lg"
+            id="price inputlg"
+          />
+          <span 
+            class="validationError badge"
+            th:if="${#fields.hasErrors('price')}"
+            th:errors="*{price}"
+            >
+            Price Error
+          </span>
+        </div>
+        <select
+          th:field="*{brandFrom}"
+          class="form-select mt-5 mb-5"
+          aria-label="Brand Selection"
+        >
+          <option
+            th:each="brand: ${brands}"
+            th:value="${brand}
+            th:text=${brand.title}"
+          />
+        </select>
+        <button type="submit" class="btn btn-success">
+          <span class="glyphicon glyphicon-search"></span>
+          Create Clothing
+        </button>
+      </form>
+    </div>
+  </body>
+</html>
