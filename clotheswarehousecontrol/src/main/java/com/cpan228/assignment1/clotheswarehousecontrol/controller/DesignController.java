@@ -51,6 +51,6 @@ public class DesignController {
     }
         log.info("Processing clothing: {}, clothing");
         clothingRepository.save(clothing);
-        return "redirect:/design";
+        return "redirect:/clothingList";
             }
 }
