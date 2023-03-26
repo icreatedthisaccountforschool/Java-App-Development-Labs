@@ -2,6 +2,7 @@ package com.cpan252.tekkenreborn.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +19,7 @@ import com.cpan252.tekkenreborn.repository.UserRepository;
  * class to define beans that we want to use in our application.
  */
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -38,7 +40,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .authorizeHttpRequests()
                 .requestMatchers(toH2Console()).permitAll()
                 .requestMatchers("/design", "/fighterlist")
@@ -53,18 +55,14 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/")
 
                 // Make H2-Console non-secured; for debug purposes
-                .and()
-                .csrf()
-                .ignoringRequestMatchers(toH2Console())
                 // Allow pages to be loaded in frames from the same origin; needed for
                 // H2-Console
                 .and()
                 .headers()
-                .frameOptions()
-                .sameOrigin()
+                .frameOptions();
 
-                .and()
-                .build();
+                http.csrf().disable();
+                return http.build();
     }
 
 }

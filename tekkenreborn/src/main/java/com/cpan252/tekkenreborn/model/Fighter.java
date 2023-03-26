@@ -2,6 +2,7 @@ package com.cpan252.tekkenreborn.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,8 +23,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
+//jakarta == javax
+
 @Entity
 public class Fighter {
+    public enum Anime {
+        NARUTO("Naruto"), BLEACH("Bleach"), ONE_PIECE("One Piece"), TEKKEN("Tekken");
+
+        private String title;
+
+        private Anime(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,19 +55,5 @@ public class Fighter {
     private Anime animeFrom;
 
     @Builder.Default
-    private LocalDate createdAt = LocalDate.now();
-
-    public enum Anime {
-        NARUTO("Naruto"), BLEACH("Bleach"), ONE_PIECE("One Piece"), TEKKEN("Tekken");
-
-        private String title;
-
-        private Anime(String title) {
-            this.title = title;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-    }
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
