@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import com.cpan228.assignment1.clotheswarehousecontrol.model.Clothing;
 import com.cpan228.assignment1.clotheswarehousecontrol.model.Clothing.Brand;
+import com.cpan228.assignment1.clotheswarehousecontrol.model.User;
 import com.cpan228.assignment1.clotheswarehousecontrol.repository.ClothingRepository;
 
 import jakarta.validation.Valid;
@@ -43,7 +46,8 @@ public class DesignController {
                 .build();
     }
 
-    @PostMapping
+    @PostMapping("/addClothing")
+    @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     public String processClothingAddition(@Valid Clothing clothing,
         BindingResult result) {
         if (result.hasErrors()){
@@ -52,5 +56,14 @@ public class DesignController {
         log.info("Processing clothing: {}, clothing");
         clothingRepository.save(clothing);
         return "redirect:/clothingList";
+        }
+
+        @PostMapping("/deleteAllFighters")
+        @PreAuthorize("hasRole('ROLE_ADMIN')")
+        public String processClothingDeletion(@AuthenticationPrincipal User user) {
+            log.info("Deleting all clothing for user: {}", user.getAuthorities());
+            clothingRepository.deleteAll();
+            return "redirect:/design";
             }
+        
 }

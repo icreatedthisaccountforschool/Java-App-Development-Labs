@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import com.cpan228.assignment1.clotheswarehousecontrol.controller.HomeController;
 import com.cpan228.assignment1.clotheswarehousecontrol.model.Clothing;
 import com.cpan228.assignment1.clotheswarehousecontrol.model.Clothing.Brand;
 import com.cpan228.assignment1.clotheswarehousecontrol.repository.ClothingRepository;
