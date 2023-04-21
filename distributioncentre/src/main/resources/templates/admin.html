@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Distribution Centres</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Distribution Centres</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Items Available</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Use Thymeleaf to loop through the distribution centres and display their data -->
+                <tr th:each="distributionCentre : ${distributionCentres}">
+                    <td th:text="${distributionCentre.id}"></td>
+                    <td th:text="${distributionCentre.name}"></td>
+                    <td th:text="${distributionCentre.itemsAvailable}"></td>
+                    <td th:text="${distributionCentre.latitude}"></td>
+                    <td th:text="${distributionCentre.longitude}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
